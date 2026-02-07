@@ -1,0 +1,13 @@
+/**
+ * Website Sharing Studio - Custom Styles
+ * Phase 1: QR Code Generator
+ *
+ * Tailwind handles most layout and utilities via CDN.
+ * This file holds custom overrides and theme-specific styles.
+ */
+
+/* --- Page Background --- */
+/* Light mint tint for the page background (complements Tailwind mint/forest theme) */
+body {
+  background-color: #E8F5F0;
+}
