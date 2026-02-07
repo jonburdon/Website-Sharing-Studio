@@ -17,6 +17,7 @@ const form = document.getElementById('qr-form');
 const urlInput = document.getElementById('url-input');
 const urlFeedback = document.getElementById('url-feedback');
 const formatRadios = document.querySelectorAll('input[name="format"]');
+const sizeRadios = document.querySelectorAll('input[name="size"]');
 const qrOutput = document.getElementById('qr-output');
 const qrImage = document.getElementById('qr-image');
 const downloadBtn = document.getElementById('download-btn');
@@ -86,18 +87,28 @@ function getTldSuggestion(urlString) {
    QR Code Generation
    ========================================================================== */
 
+// Size presets (pixels) - Small, Medium (recommended), Large
+const SIZE_PRESETS = {
+  small: 200,
+  medium: 300,
+  large: 400,
+};
+
 /**
- * Builds the QR Server API URL for a given URL and format.
+ * Builds the QR Server API URL for a given URL, format, and size.
  * api.qrserver.com supports PNG (raster) and SVG (vector).
+ * Size affects PNG dimensions; SVG uses size for default viewBox.
  * @param {string} url - The URL to encode in the QR code
  * @param {string} format - 'png' or 'svg'
+ * @param {string} size - 'small', 'medium', or 'large'
  * @returns {string} - Full API URL that returns the QR image
  */
-function generateQrImageUrl(url, format = 'png') {
+function generateQrImageUrl(url, format = 'png', size = 'medium') {
   const encoded = encodeURIComponent(url);
-  const size = format === 'svg' ? '' : 'size=300x300'; // SVG is scalable, size not needed
+  const dimension = SIZE_PRESETS[size] || SIZE_PRESETS.medium;
+  const sizeParam = `size=${dimension}x${dimension}`;
   const formatParam = format === 'svg' ? 'format=svg' : '';
-  const params = [size, formatParam].filter(Boolean).join('&');
+  const params = [sizeParam, formatParam].filter(Boolean).join('&');
   return `https://api.qrserver.com/v1/create-qr-code/?${params}&data=${encoded}`;
 }
 
@@ -162,6 +173,14 @@ function getSelectedFormat() {
   return selected ? selected.value : 'png';
 }
 
+/**
+ * Returns the currently selected size (small, medium, or large).
+ */
+function getSelectedSize() {
+  const selected = document.querySelector('input[name="size"]:checked');
+  return selected ? selected.value : 'medium';
+}
+
 /* ==========================================================================
    Form Submit Handler
    ========================================================================== */
@@ -191,9 +210,10 @@ form.addEventListener('submit', async (e) => {
     setFeedback('URL format valid ✓');
   }
 
-  // Generate and display QR code (use selected format: PNG or SVG)
+  // Generate and display QR code (use selected format and size)
   const format = getSelectedFormat();
-  const qrUrl = generateQrImageUrl(url, format);
+  const size = getSelectedSize();
+  const qrUrl = generateQrImageUrl(url, format, size);
   qrImage.src = qrUrl;
   qrImage.alt = `QR code for ${url}`;
 
@@ -205,21 +225,27 @@ form.addEventListener('submit', async (e) => {
 });
 
 /* ==========================================================================
-   Format change: regenerate QR if one is already displayed
+   Format or size change: regenerate QR if one is already displayed
    ========================================================================== */
 
+async function handleFormatOrSizeChange() {
+  if (qrOutput.classList.contains('hidden')) return;
+
+  const url = urlInput.value.trim();
+  if (!url || !isValidUrl(url)) return;
+
+  const format = getSelectedFormat();
+  const size = getSelectedSize();
+  const qrUrl = generateQrImageUrl(url, format, size);
+  qrImage.src = qrUrl;
+  await setupDownload(qrUrl, getDownloadFilename(url, format));
+  downloadBtn.textContent = `Download ${format.toUpperCase()}`;
+}
+
 formatRadios.forEach((radio) => {
-  radio.addEventListener('change', async () => {
-    // Only regenerate if a QR is already displayed
-    if (qrOutput.classList.contains('hidden')) return;
+  radio.addEventListener('change', handleFormatOrSizeChange);
+});
 
-    const url = urlInput.value.trim();
-    if (!url || !isValidUrl(url)) return;
-
-    const format = getSelectedFormat();
-    const qrUrl = generateQrImageUrl(url, format);
-    qrImage.src = qrUrl;
-    await setupDownload(qrUrl, getDownloadFilename(url, format));
-    downloadBtn.textContent = `Download ${format.toUpperCase()}`;
-  });
+sizeRadios.forEach((radio) => {
+  radio.addEventListener('change', handleFormatOrSizeChange);
 });

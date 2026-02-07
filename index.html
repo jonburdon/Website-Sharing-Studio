@@ -55,18 +55,38 @@
           <p id="url-feedback" class="mt-2 text-sm min-h-[1.25rem]" role="status"></p>
         </div>
 
-        <!-- Format: PNG or SVG -->
-        <div>
-          <span class="block text-forest font-semibold mb-2">Download format</span>
-          <div class="flex gap-6">
-            <label class="flex items-center gap-2 cursor-pointer">
-              <input type="radio" name="format" value="png" checked class="text-mint focus:ring-mint">
-              <span>PNG</span>
-            </label>
-            <label class="flex items-center gap-2 cursor-pointer">
-              <input type="radio" name="format" value="svg" class="text-mint focus:ring-mint">
-              <span>SVG</span>
-            </label>
+        <!-- Format & Size -->
+        <div class="space-y-4">
+          <div>
+            <span class="block text-forest font-semibold mb-2">Format</span>
+            <div class="flex gap-6">
+              <label class="flex items-center gap-2 cursor-pointer">
+                <input type="radio" name="format" value="png" checked class="text-mint focus:ring-mint">
+                <span>PNG</span>
+              </label>
+              <label class="flex items-center gap-2 cursor-pointer">
+                <input type="radio" name="format" value="svg" class="text-mint focus:ring-mint">
+                <span>SVG</span>
+              </label>
+            </div>
+          </div>
+          <div>
+            <span class="block text-forest font-semibold mb-2">Size</span>
+            <div class="flex flex-wrap gap-4">
+              <label class="flex items-center gap-2 cursor-pointer">
+                <input type="radio" name="size" value="small" class="text-mint focus:ring-mint">
+                <span>Small</span>
+              </label>
+              <label class="flex items-center gap-2 cursor-pointer">
+                <input type="radio" name="size" value="medium" checked class="text-mint focus:ring-mint">
+                <span>Medium</span>
+                <span class="text-xs text-forest-light bg-mint-light px-2 py-0.5 rounded">recommended</span>
+              </label>
+              <label class="flex items-center gap-2 cursor-pointer">
+                <input type="radio" name="size" value="large" class="text-mint focus:ring-mint">
+                <span>Large</span>
+              </label>
+            </div>
           </div>
         </div>
 
