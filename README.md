@@ -30,6 +30,18 @@ A suite of tools for generating, validating, and sharing web links—starting wi
 - **Email QR codes** — Pre-filled mailto links
 - **Social share buttons** — One-click share to Twitter, LinkedIn, etc.
 
+### Planned – Website Promotion Gadgets
+- **HTML email footer generator** — Paste your URL, download a ready-to-use HTML email footer file that showcases your website (logo placeholder, link, QR code, social icons) for use in Gmail, Outlook, etc.
+
+## Gadget Ideas (Suggestions)
+- **Link-in-bio page generator** — Single-page template with your links, QR, and branding
+- **WhatsApp/SMS share button generator** — Copy-paste HTML/JS snippet for “Share via WhatsApp” or “Share via SMS” buttons
+- **Open Graph / social preview tester** — Paste a URL, see how it looks when shared on Twitter, LinkedIn, Facebook
+- **Favicon + app icon pack generator** — Upload one image, download favicon.ico + apple-touch-icon + sizes for PWA
+- **Business card designer** — QR + contact details + logo in a printable layout (PDF)
+- **Landing page permalink generator** — Create short, branded share links (e.g. yoursite.com/go/product) for campaigns
+- **Email signature generator** — Name, title, phone, website link, QR code in a cross-client compatible signature block
+
 ## Getting Started
 
 *Coming soon.*
